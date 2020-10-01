@@ -1,14 +1,29 @@
+<app-loading *ngIf="loading$ | async"></app-loading>
 
-<!-- {{events$ | async | json}}
+<table mat-table [dataSource]="events$ | async" class="events-table">
+  <ng-container matColumnDef="eventName">
+    <th mat-header-cell *matHeaderCellDef>Nome do evento</th>
+    <td mat-cell *matCellDef="let element">{{ element.eventName }}</td>
+  </ng-container>
 
+  <ng-container matColumnDef="eventLocation">
+    <th mat-header-cell *matHeaderCellDef>Local do evento</th>
+    <td mat-cell *matCellDef="let element">{{ element.eventLocation }}</td>
+  </ng-container>
 
-<input type="text" #i (keydown.enter)="add(i.value)"/>
-<button (click)="add(i.value)">add</button>
+  <ng-container matColumnDef="eventDate">
+    <th mat-header-cell *matHeaderCellDef>Data do evento</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.eventDate?.seconds * 1000 | date: "dd/MM/yyyy" }}
+    </td>
+  </ng-container>
 
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    (click)="changeRow(row)"
+  ></tr>
+</table>
 
-
-<ul>
-  <li *ngFor="let item of (events$ | async).data">
-    {{item.name}}
-  </li>
-</ul> -->
+<button (click)="newEvent()">add new</button>

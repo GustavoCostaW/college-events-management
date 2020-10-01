@@ -1,31 +1,37 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as EventsActions from '../actions/events.actions';
+import { Event } from '../../../models/events.model';
 
 export interface EventsState {
-    data: any[]
-  }
+  events: Event[];
+  loading?: boolean;
+  loaded?: boolean;
+  error?: string;
+}
 
 export const initialState: EventsState = {
-    data: []
-  };
+  events: [],
+  loaded: false,
+};
 
-  const scoreboardReducer = createReducer(
-    initialState,
-    on(EventsActions.addEventAction, (state, {name}) => {
+const scoreboardReducer = createReducer(
+  initialState,
+  on(EventsActions.loadEventsAction, (state) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(EventsActions.loadEventsSuccessAction, (state, { events }) => {
+    return {
+      events,
+      loading: false,
+      loaded: true,
+      error: undefined,
+    };
+  })
+);
 
-      
-      return {
-        ...state,
-        data: [
-          ...state.data,
-          {
-            name
-          }
-        ]
-      }
-    } )
-  );
-  
-  export function reducer(state: EventsState, action: Action) {
-    return scoreboardReducer(state, action);
-  }
+export function reducer(state: EventsState, action: Action) {
+  return scoreboardReducer(state, action);
+}

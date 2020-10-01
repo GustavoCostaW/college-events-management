@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import * as eventsReducer from './store/reducers/events.reducer';
 import { EffectsModule } from '@ngrx/effects';
+import { EventDialogComponent } from './components/presentation/event-dialog/event-dialog.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,6 @@ const routes: Routes = [
     StoreModule.forFeature('events', eventsReducer.reducer),
     EffectsModule.forFeature([EventsEffects]),
   ],
-  declarations: [EventsTableComponent],
+  declarations: [EventsTableComponent, EventDialogComponent],
 })
 export class EventsModule {}

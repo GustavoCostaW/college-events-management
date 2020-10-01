@@ -1,0 +1,64 @@
+<div>
+  <div class="header" fxLayoutAlign="end center">
+    <mat-icon
+      aria-hidden="false"
+      aria-label="close"
+      class="close"
+      (click)="dialogRef.close()"
+      >close</mat-icon
+    >
+  </div>
+  <form
+    action="#"
+    fxLayout="column"
+    [formGroup]="eventFormGroup"
+    (ngSubmit)="onSubmit(eventFormGroup)"
+  >
+    <mat-form-field>
+      <mat-label>Nome do evento</mat-label>
+      <input
+        matInput
+        placeholder="Ex: Visita Faculdade XYZ"
+        formControlName="eventName"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Data do evento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="eventDate" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Total de participantes</mat-label>
+      <input
+        matInput
+        placeholder="Apenas o total, Ex: 40"
+        formControlName="eventParticipants"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Local do evento</mat-label>
+      <input
+        matInput
+        placeholder="Ex: Empresa XYZ"
+        formControlName="eventLocation"
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Descrição do evento</mat-label>
+      <textarea matInput formControlName="eventDescription"></textarea>
+    </mat-form-field>
+    <div fxLayoutAlign="end center" fxLayoutGap="5px">
+      <button
+        mat-raised-button
+        color="warn"
+        type="button"
+        *ngIf="data"
+        (click)="exclude(eventFormGroup)"
+      >
+        Excluir
+      </button>
+      <button mat-raised-button color="primary">Salvar</button>
+    </div>
+  </form>
+</div>

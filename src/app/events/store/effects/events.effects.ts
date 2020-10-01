@@ -1,17 +1,78 @@
+import { EventsService } from './../../../core/events.service';
+import {
+  deleteEventAction,
+  deleteEventActionSuccess,
+  insertEventAction,
+  insertEventActionSuccess,
+  loadEventsAction,
+  loadEventsSuccessAction,
+  updateEventAction,
+  updateEventActionSuccess,
+} from './../actions/events.actions';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { EMPTY } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
-import { loadEventsAction } from '../actions/events.actions';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { from } from 'rxjs';
 
 @Injectable()
 export class EventsEffects {
-  loadMovies$ = createEffect(() =>
-    this.actions$.pipe(
+  loadEvents$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadEventsAction),
-      mergeMap(() => {})
-    )
-  );
+      mergeMap((action) => {
+        return this.eventsService
+          .getEventsByCourse()
+          .pipe(map((events) => loadEventsSuccessAction({ events })));
+      })
+    );
+  });
 
-  constructor(private actions$: Actions) {}
+  updateEvent$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(updateEventAction),
+      mergeMap((action) => {
+        return this.eventsService
+          .updateEvent(action.event)
+          .pipe(
+            switchMap((event) =>
+              from([updateEventActionSuccess(), loadEventsAction()])
+            )
+          );
+      })
+    );
+  });
+
+  deleteEvent$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(deleteEventAction),
+      mergeMap((action) => {
+        return this.eventsService
+          .deleteEvent(action.id)
+          .pipe(
+            switchMap((event) =>
+              from([deleteEventActionSuccess(), loadEventsAction()])
+            )
+          );
+      })
+    );
+  });
+
+  insertEvent$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(insertEventAction),
+      mergeMap((action) => {
+        return this.eventsService
+          .insertEvent(action.event)
+          .pipe(
+            switchMap((event) =>
+              from([insertEventActionSuccess(), loadEventsAction()])
+            )
+          );
+      })
+    );
+  });
+  constructor(
+    private actions$: Actions,
+    private eventsService: EventsService
+  ) {}
 }
