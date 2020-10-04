@@ -3,6 +3,7 @@ import { firebaseConfig } from './firebase.config';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
@@ -25,6 +26,7 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
     AppRoutingModule,
     SharedModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireStorageModule,
     StoreModule.forRoot(startedStore),
     EffectsModule.forRoot([CourseEffects]),
     StoreDevtoolsModule.instrument({

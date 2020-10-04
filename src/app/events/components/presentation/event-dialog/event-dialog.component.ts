@@ -36,7 +36,12 @@ export class EventDialogComponent {
       eventParticipants: [],
       eventLocation: [],
       eventDescription: [],
-      eventsGallery: [],
+      eventGallery: [
+        {
+          id: 1,
+          photos: [1, 2, 3],
+        },
+      ],
     });
 
     if (this.data) {
