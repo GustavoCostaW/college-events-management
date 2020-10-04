@@ -2,8 +2,8 @@ import { startedStore } from './app.state';
 import { firebaseConfig } from './firebase.config';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireStorageModule } from '@angular/fire/storage';
+// import { AngularFireModule } from '@angular/fire';
+import { FirebaseModule } from './shared/firebase';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
@@ -25,8 +25,8 @@ import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireStorageModule,
+    FirebaseModule.withConfig(firebaseConfig),
+    // AngularFireModule.initializeApp(firebaseConfig),
     StoreModule.forRoot(startedStore),
     EffectsModule.forRoot([CourseEffects]),
     StoreDevtoolsModule.instrument({

@@ -1,4 +1,6 @@
-export interface Event {
+import { FirebaseDoc } from './../shared/firebase/models/firebase-doc';
+
+export interface Event extends FirebaseDoc {
   eventName: string;
   eventDate: {
     seconds: number;
