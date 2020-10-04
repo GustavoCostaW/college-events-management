@@ -34,8 +34,9 @@
             "scripts": [],
             "allowedCommonJsDependencies": [
               "firebase/app",
-              "@firebase/firestore",
-              "@firebase/app"
+              "@firebase/app",
+              "@firebase/auth",
+              "@firebase/firestore"
            ]
           },
           "configurations": {
