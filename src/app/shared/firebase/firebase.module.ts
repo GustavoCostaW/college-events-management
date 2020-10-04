@@ -6,15 +6,15 @@ import { AngularFireModule, FirebaseOptions, FIREBASE_OPTIONS } from '@angular/f
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
-import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
 
 @NgModule({
   providers: [AuthService, FirestoreService, FirebaseStorage],
   imports: [
     AngularFireModule,
-    AngularFireAuthGuard,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    AngularFireAuthGuardModule,
     AngularFirestoreModule.enablePersistence({ synchronizeTabs: true })
   ]
 })
