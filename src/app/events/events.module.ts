@@ -7,7 +7,10 @@ import { Routes, RouterModule } from '@angular/router';
 import * as eventsReducer from './store/reducers/events.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { EventDialogComponent } from './components/presentation/event-dialog/event-dialog.component';
-import { EventGalleryUploadComponent } from './components/container/event-gallery-upload/event-gallery-upload.component';
+import {
+  EventGalleryUploadComponent,
+  EventGalleryUploadItemComponent,
+} from './components/container/event-gallery-upload';
 
 const routes: Routes = [
   {
@@ -27,6 +30,7 @@ const routes: Routes = [
     EventsTableComponent,
     EventDialogComponent,
     EventGalleryUploadComponent,
+    EventGalleryUploadItemComponent,
   ],
 })
 export class EventsModule {}

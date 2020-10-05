@@ -1,16 +1,22 @@
 <input
+  #fileInput
   type="file"
-  (input)="uploadImage($event)"
   multiple="multiple"
   accept="image/*"
+  (change)="onFileChange($event.target?.files)"
 />
 
-<br /><br /><br />
-
-<ul>
-  <li *ngFor="let item of filesData">
-    <img src="{{ item }}" width="100px" />
-  </li>
-</ul>
-
-<!-- {{ filesData | json }} -->
+<div fxLayout="column" fxLayoutGap="12px">
+  <button fxFlex type="button" mat-button (click)="fileInput.click()">
+    <mat-icon>add_a_photo</mat-icon>
+    <span>Selecionar</span>
+  </button>
+  <ng-container *ngIf="files.length">
+    <mat-divider></mat-divider>
+    <app-event-gallery-upload-item
+      *ngFor="let item of files"
+      [path]="folderName"
+      [item]="item"
+    ></app-event-gallery-upload-item>
+  </ng-container>
+</div>
