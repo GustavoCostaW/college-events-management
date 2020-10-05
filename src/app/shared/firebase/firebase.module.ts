@@ -15,7 +15,8 @@ import { AngularFireAuthGuardModule } from '@angular/fire/auth-guard';
     AngularFireAuthModule,
     AngularFireStorageModule,
     AngularFireAuthGuardModule,
-    AngularFirestoreModule.enablePersistence({ synchronizeTabs: true })
+    AngularFirestoreModule
+    // .enablePersistence({ synchronizeTabs: true })
   ]
 })
 export class FirebaseModule {

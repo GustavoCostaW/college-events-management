@@ -1,0 +1,48 @@
+<ng-container *ngIf="image$ | async as img">
+  <img [src]="img.data" [alt]="img.file.name" />
+</ng-container>
+
+<div *ngIf="percentage | async as pct">
+  <mat-progress-bar
+    mode="determinate"
+    [value]="pct"
+    max="100"
+    color="primary"
+  ></mat-progress-bar>
+  {{ pct | number }}%
+</div>
+
+<div *ngIf="snapshot | async as snap">
+  {{ snap.bytesTransferred }} of {{ snap.totalBytes }}
+
+  <div *ngIf="downloadURL as url">
+    <img [src]="url" /><br />
+    <a [href]="url" target="_blank" rel="noopener">Baixar</a>
+  </div>
+  <hr />
+
+  <button
+    (click)="task.pause()"
+    mat-button
+    color="warn"
+    [disabled]="!isActive(snap)"
+  >
+    Pausar
+  </button>
+  <button
+    (click)="task.cancel()"
+    mat-button
+    color="warn"
+    [disabled]="!isActive(snap)"
+  >
+    Cancelar
+  </button>
+  <button
+    (click)="task.resume()"
+    mat-button
+    color="accent"
+    [disabled]="!(snap?.state === 'paused')"
+  >
+    Continuar
+  </button>
+</div>
