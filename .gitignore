@@ -4,6 +4,7 @@ src/app/firebase.config.ts
 
 # compiled output
 /dist
+/public
 /tmp
 /out-tsc
 # Only exists if Bazel was run
