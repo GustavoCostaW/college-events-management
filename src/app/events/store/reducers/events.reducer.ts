@@ -23,6 +23,7 @@ const scoreboardReducer = createReducer(
     };
   }),
   on(EventsActions.loadEventsSuccessAction, (state, { events }) => {
+    console.log(events);
     return {
       events,
       loading: false,

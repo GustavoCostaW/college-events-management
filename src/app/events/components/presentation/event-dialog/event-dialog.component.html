@@ -19,12 +19,12 @@
       <input
         matInput
         placeholder="Ex: Visita Faculdade XYZ"
-        formControlName="eventName"
+        formControlName="name"
       />
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Data do evento</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="eventDate" />
+      <input matInput [matDatepicker]="picker" formControlName="date" />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
@@ -33,7 +33,7 @@
       <input
         matInput
         placeholder="Apenas o total, Ex: 40"
-        formControlName="eventParticipants"
+        formControlName="participants"
       />
     </mat-form-field>
     <mat-form-field>
@@ -41,15 +41,15 @@
       <input
         matInput
         placeholder="Ex: Empresa XYZ"
-        formControlName="eventLocation"
+        formControlName="location"
       />
     </mat-form-field>
     <mat-form-field>
       <mat-label>Descrição do evento</mat-label>
-      <textarea matInput formControlName="eventDescription"></textarea>
+      <textarea matInput formControlName="description"></textarea>
     </mat-form-field>
 
-    <app-event-gallery-upload></app-event-gallery-upload>
+    <app-event-gallery-upload (completed$)="completed($event)"></app-event-gallery-upload>
 
     <div fxLayoutAlign="end center" fxLayoutGap="5px">
       <button

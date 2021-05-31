@@ -12,24 +12,32 @@ import { map, take, switchMap } from 'rxjs/operators';
 export class SemesterService {
   constructor(private afs: AngularFirestore) {}
 
-  returnSemesterId(event: Event): Observable<string> {
-    const month = event.eventDate.getMonth() + 1;
-    const year = event.eventDate.getFullYear();
+  returnSemesterId(event: Event): string {
+    const month = event.date.getMonth() + 1;
+    const year = event.date.getFullYear();
     const semester = month <= 6 ? 1 : 2;
 
-    return this.findSemester(semester, year).pipe(
-      switchMap((result: Semester[]) => {
-        if (result.length) {
-          return of(result[0].id);
-        } else {
-          return this.createSemester({
-            year,
-            semester,
-          });
-        }
-      })
-    );
+    return `${semester}${year}`;
   }
+
+  // returnSemesterId(event: Event): Observable<string> {
+  //   const month = event.eventDate.getMonth() + 1;
+  //   const year = event.eventDate.getFullYear();
+  //   const semester = month <= 6 ? 1 : 2;
+
+  //   return this.findSemester(semester, year).pipe(
+  //     switchMap((result: Semester[]) => {
+  //       if (result.length) {
+  //         return of(result[0].id);
+  //       } else {
+  //         return this.createSemester({
+  //           year,
+  //           semester,
+  //         });
+  //       }
+  //     })
+  //   );
+  // }
 
   findSemester(semester: number, year: number): Observable<Semester[]> {
     return this.afs

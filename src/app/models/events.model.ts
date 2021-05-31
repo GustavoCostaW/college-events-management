@@ -1,17 +1,15 @@
-import { FirebaseDoc } from './../shared/firebase/models/firebase-doc';
-
-export interface Event extends FirebaseDoc {
-  eventName: string;
-  eventDate: {
+export interface Event {
+  name: string;
+  date: {
     seconds: number;
     nanoseconds: number;
     getMonth: () => number;
     getFullYear: () => number;
   };
-  eventParticipants: string;
-  eventLocation: string;
-  eventGallery: string[];
-  semesterId: string;
-  userCreatorId: string;
+  participants: string;
+  location: string;
+  gallery: string[];
+  semester_id: string;
+  user_creator_id: string;
   id: string;
 }

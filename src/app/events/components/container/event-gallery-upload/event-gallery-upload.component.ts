@@ -89,6 +89,8 @@ export class EventGalleryUploadComponent implements OnInit {
       console.log(files);
       this.filesData = files;
 
+      this.completed$.next(this.filesData);
+
       this.cdRef.markForCheck();
     });
   }

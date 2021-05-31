@@ -8,6 +8,11 @@ const routes: Routes = [
       import('./events/events.module').then((m) => m.EventsModule),
   },
   {
+    path: 'export',
+    loadChildren: () =>
+      import('./export/export.module').then((m) => m.ExportModule),
+  },
+  {
     path: '',
     redirectTo: 'events',
     pathMatch: 'full',
@@ -15,7 +20,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

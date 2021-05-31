@@ -35,7 +35,7 @@
               "firebase/app",
               "@firebase/firestore",
               "@firebase/app"
-           ],
+            ],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -132,6 +132,10 @@
               "devServerTarget": "college-events-management:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }

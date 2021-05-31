@@ -1,3 +1,5 @@
+import { selectCurrentUser } from './../../../auth/store/selectors/auth.selectors';
+import { selectActiveCourse } from '../../../course/store/selectors/course.selectors';
 import { EventsService } from './../../../core/events.service';
 import {
   deleteEventAction,
@@ -11,30 +13,34 @@ import {
 } from './../actions/events.actions';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { from } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class EventsEffects {
-  loadEvents$ = createEffect(() => {
+
+  public loadEvents$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadEventsAction),
-      mergeMap((action) => {
+      withLatestFrom(this.store.select(selectActiveCourse)),
+      mergeMap(([action, {id}]) => {
         return this.eventsService
-          .getEventsByCourse()
+          .getAllEventsByCourse(id)
           .pipe(map((events) => loadEventsSuccessAction({ events })));
       })
     );
   });
 
-  updateEvent$ = createEffect(() => {
+  public updateEvent$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(updateEventAction),
-      mergeMap((action) => {
+      withLatestFrom(this.store.select(selectActiveCourse)),
+      mergeMap(([action, course]) => {
         return this.eventsService
-          .updateEvent(action.event)
+          .updateEvent(action.event, course.id)
           .pipe(
-            switchMap((event) =>
+            switchMap(() =>
               from([updateEventActionSuccess(), loadEventsAction()])
             )
           );
@@ -42,14 +48,15 @@ export class EventsEffects {
     );
   });
 
-  deleteEvent$ = createEffect(() => {
+  public deleteEvent$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(deleteEventAction),
-      mergeMap((action) => {
+      withLatestFrom(this.store.select(selectActiveCourse)),
+      mergeMap(([action, {id}]) => {
         return this.eventsService
-          .deleteEvent(action.id)
+          .deleteEvent(action.id, id)
           .pipe(
-            switchMap((event) =>
+            switchMap(() =>
               from([deleteEventActionSuccess(), loadEventsAction()])
             )
           );
@@ -57,14 +64,15 @@ export class EventsEffects {
     );
   });
 
-  insertEvent$ = createEffect(() => {
+  public insertEvent$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(insertEventAction),
-      mergeMap((action) => {
+      withLatestFrom(this.store.select(selectActiveCourse), this.store.select(selectCurrentUser)),
+      mergeMap(([action, course, user]) => {
         return this.eventsService
-          .insertEvent(action.event)
+          .insertEvent(action.event, course.id, user.id)
           .pipe(
-            switchMap((event) =>
+            switchMap(() =>
               from([insertEventActionSuccess(), loadEventsAction()])
             )
           );
@@ -73,6 +81,7 @@ export class EventsEffects {
   });
   constructor(
     private actions$: Actions,
-    private eventsService: EventsService
+    private eventsService: EventsService,
+    private store: Store
   ) {}
 }

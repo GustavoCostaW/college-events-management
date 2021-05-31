@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "college-events-management": {
+      "hosting": {
+        "college-events-management": [
+          "college-events-management"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "college-events-management"
+  }
+}

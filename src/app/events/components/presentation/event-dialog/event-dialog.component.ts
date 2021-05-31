@@ -28,29 +28,24 @@ export class EventDialogComponent {
 
   ngOnInit(): void {
     this.eventFormGroup = this.formGroup.group({
-      id: [],
-      semesterId: [],
-      userCreatorId: [],
-      eventName: [, Validators.required],
-      eventDate: [, Validators.required],
-      eventParticipants: [],
-      eventLocation: [],
-      eventDescription: [],
-      eventGallery: [
-        {
-          id: 1,
-          photos: [1, 2, 3],
-        },
-      ],
+      id: undefined,
+      semester_id: undefined,
+      user_creator_id: undefined,
+      name: [, Validators.required],
+      date: [, Validators.required],
+      participants: undefined,
+      location: undefined,
+      description: undefined,
+      gallery: [],
     });
 
     if (this.data) {
       this.eventFormGroup.patchValue({
         ...this.data,
-        eventDate: moment(
+        date: moment(
           new Date(
-            (this.data.eventDate.seconds +
-              this.data.eventDate.nanoseconds * 10 ** -9) *
+            (this.data.date.seconds +
+              this.data.date.nanoseconds * 10 ** -9) *
               1000
           )
         ),
@@ -68,8 +63,18 @@ export class EventDialogComponent {
     if (eventFormGroup.valid) {
       this.dialogRef.close({
         ...eventFormGroup.value,
-        eventDate: moment(eventFormGroup.value.eventDate).toDate(),
+        date: moment(eventFormGroup.value.date).toDate(),
       });
     }
+  }
+
+  completed(gallery) {
+    if (this.eventFormGroup.valid) {
+      this.dialogRef.close({
+        ...this.eventFormGroup.value,
+        date: moment(this.eventFormGroup.value.date).toDate(),
+        gallery
+      });
+    } 
   }
 }

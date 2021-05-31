@@ -11,8 +11,8 @@ import {
   selectEventsLoaded,
   selectEventsLoading,
 } from './../../../store/selectors/events.selectors';
-import { selectActiveCourse } from './../../../../store/selectors/course.selectors';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { selectActiveCourse } from '../../../../course/store/selectors/course.selectors';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -26,7 +26,7 @@ import { Event } from '../../../../models/events.model';
   styleUrls: ['./events-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EventsTableComponent {
+export class EventsTableComponent implements OnInit {
   public events$: Observable<Event[]>;
   public loading$: Observable<boolean>;
   public loaded$: Observable<boolean>;
@@ -38,33 +38,34 @@ export class EventsTableComponent {
     'eventDate',
   ];
 
-  constructor(private store: Store, public dialog: MatDialog) {
+  constructor(private store: Store, public dialog: MatDialog) {}
+
+  ngOnInit() {
     this.store
       .select(selectActiveCourse)
       .pipe(
-        filter((course) => course.id),
+        filter((course) => !!course.id),
         take(1)
       )
       .subscribe(() => {
         this.store.dispatch(loadEventsAction());
       });
 
-    this.events$ = this.store
-      .select(selectAllEvents)
-      .pipe(filter((events) => !!events.length));
+    this.events$ = this.store.select(selectAllEvents);
+
     this.loading$ = this.store.select(selectEventsLoading);
     this.loaded$ = this.store.select(selectEventsLoaded);
     this.error$ = this.store.select(selectEventsError);
   }
 
-  changeRow(row: Event) {
-    const dialogRef = this.dialog.open(EventDialogComponent, {
+  public changeRow(row: Event): void {
+    this.dialog.open(EventDialogComponent, {
       data: row,
-    });
-
-    dialogRef
-      .afterClosed()
-      .pipe(filter((result) => result))
+    }).afterClosed()
+      .pipe(
+        take(1),
+        filter((result) => result)
+      )
       .subscribe((result) => {
         if (result.mode === EventDialogComponentMode.DELETE) {
           this.store.dispatch(deleteEventAction({ id: result.id }));
@@ -74,14 +75,22 @@ export class EventsTableComponent {
       });
   }
 
-  newEvent() {
-    const dialogRef = this.dialog.open(EventDialogComponent);
-
-    dialogRef
+  public newEvent(): void {
+    this.dialog
+      .open(EventDialogComponent)
       .afterClosed()
-      .pipe(filter((result) => result))
-      .subscribe((result) =>
-        this.store.dispatch(insertEventAction({ event: result }))
-      );
+      .pipe(
+        take(1),
+        filter((result) => result)
+      )
+      .subscribe((event) => {
+        this.store.dispatch(
+          insertEventAction({
+            event: {
+              ...event,
+            },
+          })
+        );
+      });
   }
 }

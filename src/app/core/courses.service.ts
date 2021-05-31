@@ -9,19 +9,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CoursesService {
-  public courseId = 'wcVdWWl0usv20Jx4ZfCW';
 
   constructor(private afs: AngularFirestore) {}
 
-  getCourse(): Observable<Course> {
+  public getCourse(id: string): Observable<Course> {
     return this.afs
-      .doc<any>(`courses/${this.courseId}`)
+      .doc<any>(`courses/${id}`)
       .valueChanges()
       .pipe(
         take(1),
         map((course) => {
           return {
-            id: this.courseId,
+            id,
             ...course,
           };
         })
