@@ -1,0 +1,23 @@
+<input
+  type="file"
+  (input)="uploadImage($event)"
+  multiple="multiple"
+  accept="image/*"
+  id="files"
+/>
+<label for="files">Escolher imagens para upload</label>
+
+<div *ngIf="!loading">
+  <ul fxLayout="row wrap" id="gallery" *ngIf="(uploads$ | async).length > 0" fxLayoutGap="10px">
+    <li *ngFor="let item of (uploads$ | async)">
+      <img src="{{ item }}" width="100px" />
+      <button mat-fab color="primary" type="button">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="loading">
+  Carregando...
+</div>

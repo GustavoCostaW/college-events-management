@@ -1,0 +1,13 @@
+<form>
+  <p>Please login.</p>
+  <input
+    #email
+    placeholder="email"
+    type="email"
+    value="gustavo.costa.w@gmail.com"
+  />
+  <input #password placeholder="password" type="password" value="123456" />
+  <button (click)="login(email.value, password.value)" type="button">
+    Entrar
+  </button>
+</form>

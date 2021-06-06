@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Event } from '../../../../models/events.model';
-import * as _moment from 'moment';
-
-const moment = _moment;
 
 export enum EventDialogComponentMode {
   DELETE = 'delete',
@@ -22,12 +18,12 @@ export class EventDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<EventDialogComponent>,
-    private formGroup: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: Event
+    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data
   ) {}
 
   ngOnInit(): void {
-    this.eventFormGroup = this.formGroup.group({
+    this.eventFormGroup = this.fb.group({
       id: undefined,
       semester_id: undefined,
       user_creator_id: undefined,
@@ -42,39 +38,29 @@ export class EventDialogComponent {
     if (this.data) {
       this.eventFormGroup.patchValue({
         ...this.data,
-        date: moment(
-          new Date(
-            (this.data.date.seconds +
-              this.data.date.nanoseconds * 10 ** -9) *
-              1000
-          )
-        ),
+        date: this.data.date.toDate(),
+        gallery: this.data.gallery ? this.data.gallery : []
       });
     }
   }
-  exclude(eventFormGroup: FormGroup): void {
+  
+  public exclude(eventFormGroup: FormGroup): void {
     this.dialogRef.close({
       mode: EventDialogComponentMode.DELETE,
       ...eventFormGroup.value,
     });
   }
 
-  onSubmit(eventFormGroup: FormGroup): void {
+  public onSubmit(eventFormGroup: FormGroup): void {
     if (eventFormGroup.valid) {
       this.dialogRef.close({
         ...eventFormGroup.value,
-        date: moment(eventFormGroup.value.date).toDate(),
+        date: eventFormGroup.value.date,
       });
     }
   }
 
-  completed(gallery) {
-    if (this.eventFormGroup.valid) {
-      this.dialogRef.close({
-        ...this.eventFormGroup.value,
-        date: moment(this.eventFormGroup.value.date).toDate(),
-        gallery
-      });
-    } 
+  public galleryUpdated(gallery: string[]): void {
+    this.eventFormGroup.patchValue({gallery});
   }
 }

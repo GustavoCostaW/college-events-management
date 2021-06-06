@@ -13,6 +13,8 @@
     fxLayout="column"
     [formGroup]="eventFormGroup"
     (ngSubmit)="onSubmit(eventFormGroup)"
+    fxLayoutGap="15px"
+    fxLayoutGap.xs="0px"
   >
     <mat-form-field>
       <mat-label>Nome do evento</mat-label>
@@ -49,7 +51,10 @@
       <textarea matInput formControlName="description"></textarea>
     </mat-form-field>
 
-    <app-event-gallery-upload (completed$)="completed($event)"></app-event-gallery-upload>
+    <app-event-gallery-upload
+      (updated$)="galleryUpdated($event)"
+      [images]="eventFormGroup.get('gallery').value"
+    ></app-event-gallery-upload>
 
     <div fxLayoutAlign="end center" fxLayoutGap="5px">
       <button

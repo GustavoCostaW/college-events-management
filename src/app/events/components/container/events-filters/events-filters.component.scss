@@ -1,0 +1,29 @@
+#filters-container {
+    padding: 10px;
+}
+
+.action-button {
+    height: 50px;
+}
+
+.active-filter-details {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+#filters-container > div {
+    width: 100%;
+}
+#search-container, #search-container mat-form-field {
+    width: 100%;
+} 
+
+// @media only screen 
+//   and (min-width: 600px){
+//     #filters-container > div {
+//         max-width: 400px;
+//     }
+//     #search-container, #search-container mat-form-field {
+//         max-width: 400px;
+//     } 
+// }

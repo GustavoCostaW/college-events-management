@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExportComponent } from './export/export.component';
@@ -15,7 +16,7 @@ const routes: Routes = [
     ExportComponent
   ],
   imports: [
-    CommonModule,
+    SharedModule,
     RouterModule.forChild(routes),
   ]
 })

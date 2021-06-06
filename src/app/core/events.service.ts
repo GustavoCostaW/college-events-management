@@ -34,12 +34,11 @@ export class EventsService {
     course_id: string,
     semester_id: string
   ): Observable<any> {
-    console.log('hello!', this.path(course_id));
     return this.afs
-      .collection<Event>(
-        this.path(course_id),
-        (ref) =>
-          ref.orderBy('date', 'desc').where('semester_id', '==', semester_id)
+      .collection<Event>(this.path(course_id), (ref) =>
+        ref
+          .orderBy('date', 'desc')
+          .where('semester_id', '==', semester_id)
       )
       .valueChanges({
         idField: 'id',
@@ -55,12 +54,10 @@ export class EventsService {
 
   public updateEvent(event: Event, course_id: string): Observable<boolean> {
     return from(
-      this.afs
-        .doc<Event>(`courses/${course_id}/events/${event.id}`)
-        .update({
-          ...event,
-          semester_id: this.semesterService.returnSemesterId(event)
-        })
+      this.afs.doc<Event>(`courses/${course_id}/events/${event.id}`).update({
+        ...event,
+        semester_id: this.semesterService.returnSemesterId(event),
+      })
     ).pipe(map(() => true));
   }
 

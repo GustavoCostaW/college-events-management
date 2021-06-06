@@ -1,7 +1,10 @@
 import { Event } from './../../../models/events.model';
 import { createAction, props } from '@ngrx/store';
 
-export const loadEventsAction = createAction('[Events] Load Events');
+export const loadEventsAction = createAction(
+  '[Events] Load Events',
+  (filters = {}) => filters
+);
 
 export const loadEventsSuccessAction = createAction(
   '[Events] Load Events Success',

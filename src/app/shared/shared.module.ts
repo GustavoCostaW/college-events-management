@@ -1,4 +1,3 @@
-import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { LoadingComponent } from './loading/loading.component';
 import { MaterialModule } from './material.module';
 import { RouterModule } from '@angular/router';
@@ -6,6 +5,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
+
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_FORMATS } from '../app.date.format';
 
 const reExport = [

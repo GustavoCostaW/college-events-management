@@ -1,0 +1,74 @@
+<form [formGroup]="semesterFormGroup" fxLayout="column" fxLayoutGap="20px">
+  <mat-form-field appearance="fill" class="date-picker">
+    <mat-label>Month and Year</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="date" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker
+      #picker
+      touchUi="true"
+      startView="multi-year"
+      (yearSelected)="yearSelected($event, picker)"
+    >
+    </mat-datepicker>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="picker.open()">
+    {{
+      semesterFormGroup.get("date").value
+        ? semesterFormGroup.get("date").value
+        : "Selecionar ano"
+    }}
+  </button>
+
+  <div
+    *ngIf="semesterFormGroup.get('date').value"
+    fxLayoutGap="20px"
+    fxLayout="column"
+  >
+    Selecione o semestre:
+    <mat-radio-group
+      aria-label="Semestre"
+      fxLayout="column"
+      fxLayoutGap="5px"
+      formControlName="semester"
+    >
+      <mat-radio-button value="1">.1</mat-radio-button>
+      <mat-radio-button value="2">.2</mat-radio-button>
+    </mat-radio-group>
+
+    <div *ngIf="data.mode === 'FILTERS'" fxFlex="row" fxLayoutGap="10px">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="filter(undefined, undefined)"
+      >
+        LIMPAR
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="
+          filter(
+            semesterFormGroup.get('semester').value,
+            semesterFormGroup.get('date').value
+          )
+        "
+      >
+        FILTRAR
+      </button>
+    </div>
+
+    <div
+      *ngIf="semesterFormGroup.get('semester').value && data.mode === 'EXPORT'"
+    >
+      <a
+        href="/export?semester={{ semesterFormGroup.get('semester').value}}{{
+          semesterFormGroup.get('date').value
+        }}&course_id={{data.course?.id }}"
+        #link
+        target="_blank"
+      >
+        <button mat-raised-button color="primary" (click)="link.click()">EXPORTAR PDF</button>
+      </a>
+    </div>
+  </div>
+</form>

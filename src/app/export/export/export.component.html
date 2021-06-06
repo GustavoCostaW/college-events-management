@@ -1,12 +1,19 @@
-<div *ngIf="events$ | async as events" class="container">
+<h1 *ngIf="course$ | async as course">{{course.name}} <span *ngIf="(semester_year$ | async)">
+    {{(semester_year$ | async)}}
+</span></h1>
+
+<div *ngIf="events$ | async as events" class="container" fxLayout="column" fxLayoutGap="50px">
     <div *ngFor="let event of events; let i = index">
         <h1>{{event.name}}</h1>
-        <h3>{{event.location}}</h3>
-        <h4>{{event.participants}} people</h4>
-        <h4>{{event.description}}</h4>
+        <h3>Local: {{event.location}}</h3>
+        <h4>Total de participantes: {{event.participants}} people</h4>
+        <h4>Descrição: {{event.description}}</h4>
 
-        <div *ngIf="event.gallery && event.gallery.length > 0">
-            <img *ngFor="let photo of event.gallery; let j =index" [src]="photo" [alt]="event.name" width="200px" (load)="print(event.gallery,  j, events,i)"/>
-        </div>
+        Imagens: 
+        <ul *ngIf="event.gallery && event.gallery.length > 0" id="gallery-pdf" fxLayout="row wrap" fxLayoutGap="30px">
+            <li *ngFor="let photo of event.gallery; let j = index">
+                <img [src]="photo" [alt]="event.name" width="200px" (load)="print(event.gallery,  j, events,i)"/>
+            </li>
+        </ul>
     </div>
 </div>

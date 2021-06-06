@@ -1,8 +1,10 @@
+import { CoursesService } from './../../core/courses.service';
+import { Course } from './../../models/course.model';
 import { EventsService } from './../../core/events.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { filter, switchMap, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-export',
@@ -11,21 +13,42 @@ import { Observable } from 'rxjs';
 })
 export class ExportComponent implements OnInit {
 
-  public events$: Observable<Event[]>;
+  public events$: Observable<Event[]> = of([]);
+  public course$: Observable<Course> = of();
+  public semester_year$: Observable<string>;
 
   constructor(
     private activatedRouter: ActivatedRoute,
-    private eventsService: EventsService
+    private eventsService: EventsService,
+    private courseService: CoursesService
   ) {}
   
 
   ngOnInit(): void {
+
+    this.semester_year$ = this.activatedRouter.queryParams
+    .pipe(
+      filter((params) => !!params.semester && !!params.course_id),
+      map(params => params.semester)
+    )
+    
+
+    this.course$ = this.activatedRouter.queryParams
+    .pipe(
+      filter((params) => !!params.course_id),
+      switchMap((params) =>
+        this.courseService.getCourse(
+          params.course_id
+        )
+      )
+    );
+
     this.events$ = this.activatedRouter.queryParams
     .pipe(
-      filter((params) => !!params.semester),
+      filter((params) => !!params.semester && !!params.course_id),
       switchMap((params) =>
         this.eventsService.getAllEventsBySemesterAndCourse(
-          'bC7Lt9A2l6jlvslB2Enq',
+          params.course_id,
           params.semester
         )
       )
@@ -33,10 +56,10 @@ export class ExportComponent implements OnInit {
   }
 
   print(gallery, j, events, i){
-    if (events.length-1 === i && gallery.length-1 === j) {
-      setTimeout(_ => {
-        window.print();
-      }, 500);
-    }
+    // if (events.length-1 === i && gallery.length-1 === j) {
+    //   setTimeout(_ => {
+    //     window.print();
+    //   }, 500);
+    // }
   }
 }

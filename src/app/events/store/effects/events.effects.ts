@@ -25,9 +25,16 @@ export class EventsEffects {
       ofType(loadEventsAction),
       withLatestFrom(this.store.select(selectActiveCourse)),
       mergeMap(([action, {id}]) => {
-        return this.eventsService
+        const filters = action.filters;
+        if (filters?.year && filters?.semester) {
+          return this.eventsService
+          .getAllEventsBySemesterAndCourse(id, `${filters.semester}${filters.year}`)
+          .pipe(map((events) => loadEventsSuccessAction({ events })));
+        } else {
+          return this.eventsService
           .getAllEventsByCourse(id)
           .pipe(map((events) => loadEventsSuccessAction({ events })));
+        }
       })
     );
   });

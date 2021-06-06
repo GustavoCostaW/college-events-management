@@ -7,6 +7,10 @@ export interface EventsState {
   loading?: boolean;
   loaded?: boolean;
   error?: string;
+  filters?: {
+    semester: string;
+    year: string;
+  };
 }
 
 export const initialState: EventsState = {
@@ -14,17 +18,18 @@ export const initialState: EventsState = {
   loaded: false,
 };
 
-const scoreboardReducer = createReducer(
+const eventsReducerFactory = createReducer(
   initialState,
-  on(EventsActions.loadEventsAction, (state) => {
+  on(EventsActions.loadEventsAction, (state, { filters }) => {
     return {
       ...state,
       loading: true,
+      filters,
     };
   }),
   on(EventsActions.loadEventsSuccessAction, (state, { events }) => {
-    console.log(events);
     return {
+      ...state,
       events,
       loading: false,
       loaded: true,
@@ -33,6 +38,6 @@ const scoreboardReducer = createReducer(
   })
 );
 
-export function reducer(state: EventsState, action: Action) {
-  return scoreboardReducer(state, action);
+export function eventsReducer(state: EventsState, action: Action) {
+  return eventsReducerFactory(state, action);
 }

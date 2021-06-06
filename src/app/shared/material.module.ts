@@ -8,7 +8,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatRadioModule } from '@angular/material/radio';
 
 const reExport = [
   MatTableModule,
@@ -20,7 +20,8 @@ const reExport = [
   MatNativeDateModule,
   MatIconModule,
   MatButtonModule,
-  MatMomentDateModule,
+  MatDialogModule,
+  MatRadioModule,
 ];
 
 @NgModule({

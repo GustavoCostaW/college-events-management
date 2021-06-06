@@ -18,3 +18,7 @@ export const selectEventsLoaded = createSelector(selectEvents, (state) => {
 export const selectEventsError = createSelector(selectEvents, (state) => {
   return state.error;
 });
+
+export const selectFiltersEvents = createSelector(selectEvents, (state) => {
+  return state.filters;
+});
