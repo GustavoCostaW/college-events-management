@@ -1,13 +1,19 @@
-<form>
-  <p>Please login.</p>
-  <input
-    #email
-    placeholder="email"
-    type="email"
-    value="gustavo.costa.w@gmail.com"
-  />
-  <input #password placeholder="password" type="password" value="123456" />
-  <button (click)="login(email.value, password.value)" type="button">
-    Entrar
-  </button>
-</form>
+<div id="login-container" fxLayout fxLayoutAlign="center" fxFill>
+  <form [formGroup]="loginFormGroup" (ngSubmit)="login(loginFormGroup.get('email').value, loginFormGroup.get('password').value)" fxLayout="column">
+    <mat-form-field appearance="legacy">
+      <mat-label>E-mail</mat-label>
+      <input matInput placeholder="E-mail" type="email" formControlName="email">
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Senha</mat-label>
+      <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Esconder senha'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+  
+    <button mat-raised-button color="login" type="submit">Entrar</button>
+  </form>
+  
+</div>

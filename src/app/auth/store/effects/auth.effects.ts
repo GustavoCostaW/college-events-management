@@ -21,6 +21,7 @@ export class AuthEffects {
         this.authService.login(email, password)
       ),
       switchMap((user) => this.authService.findUserById(user.id)),
+      tap(() => this.router.navigate(['events'])),
       switchMap((user) =>
         from([
           loadCourseAction({ id: user.course_id }),
@@ -29,7 +30,6 @@ export class AuthEffects {
           }),
         ])
       ),
-      tap(() => this.router.navigate(['events']))
     );
   });
 

@@ -1,7 +1,6 @@
 import { User } from './../models/user.model';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { from } from 'rxjs';
 import { map, take } from 'rxjs/operators';

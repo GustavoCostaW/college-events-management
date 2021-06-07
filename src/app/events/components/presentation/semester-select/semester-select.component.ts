@@ -13,7 +13,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class SemesterSelectComponent {
   @ViewChild('picker') datePicker: MatDatepicker<Date>;
-
   public semesterFormGroup: FormGroup;
   constructor(
     private fb: FormBuilder,
@@ -26,8 +25,6 @@ export class SemesterSelectComponent {
       semester: undefined,
       date: undefined,
     });
-
-    console.log(this.data);
 
     if (this.data?.semester && this.data?.year) {
       this.semesterFormGroup.setValue({

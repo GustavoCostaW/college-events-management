@@ -39,11 +39,11 @@ export class EventDialogComponent {
       this.eventFormGroup.patchValue({
         ...this.data,
         date: this.data.date.toDate(),
-        gallery: this.data.gallery ? this.data.gallery : []
+        gallery: this.data.gallery ? this.data.gallery : [],
       });
     }
   }
-  
+
   public exclude(eventFormGroup: FormGroup): void {
     this.dialogRef.close({
       mode: EventDialogComponentMode.DELETE,
@@ -61,6 +61,6 @@ export class EventDialogComponent {
   }
 
   public galleryUpdated(gallery: string[]): void {
-    this.eventFormGroup.patchValue({gallery});
+    this.eventFormGroup.patchValue({ gallery });
   }
 }

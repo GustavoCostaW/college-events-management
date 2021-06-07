@@ -42,7 +42,7 @@
     <div class="active-filter-details">
       {{ (course$ | async).name }} -
       <span *ngIf="filters$ | async as filters"
-        >{{ filters.year }} .{{ filters.semester }}</span
+        >{{ filters.year }} <span *ngIf="filters.year">.</span>{{ filters.semester }}</span
       >
     </div>
     <a href="#" (click)="logout()">Sair</a>

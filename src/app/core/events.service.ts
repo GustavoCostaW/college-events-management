@@ -3,7 +3,7 @@ import { Event } from './../models/events.model';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,9 +17,8 @@ export class EventsService {
   ) {}
 
   public getAllEventsByCourse(course_id: string): Observable<any> {
-    console.log('hello!', this.path(course_id));
     return this.afs
-      .collection<Event>(
+      .collection<Event[]>(
         this.path(course_id),
         (ref) => ref.orderBy('date', 'desc')
         // .limit(100).startAfter({})
@@ -36,9 +35,7 @@ export class EventsService {
   ): Observable<any> {
     return this.afs
       .collection<Event>(this.path(course_id), (ref) =>
-        ref
-          .orderBy('date', 'desc')
-          .where('semester_id', '==', semester_id)
+        ref.orderBy('date', 'desc').where('semester_id', '==', semester_id)
       )
       .valueChanges({
         idField: 'id',

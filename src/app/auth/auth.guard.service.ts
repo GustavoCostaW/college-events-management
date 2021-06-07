@@ -9,7 +9,7 @@ import {
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
+import { map, take, withLatestFrom } from 'rxjs/operators';
 
 import { selectCurrentUser } from './store/selectors/auth.selectors';
 import { loginFromSessionAction } from './store/actions/auth.actions';
@@ -24,7 +24,7 @@ export class AuthGuard implements CanActivate {
     private store: Store
   ) {}
 
-  canActivate(
+  public canActivate(
     next: ActivatedRouteSnapshot
   ): Observable<boolean> | boolean {
     return this.auth.user.pipe(

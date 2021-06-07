@@ -3,7 +3,7 @@ import { Course } from './../../models/course.model';
 import { EventsService } from './../../core/events.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 @Component({
@@ -12,7 +12,6 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./export.component.scss'],
 })
 export class ExportComponent implements OnInit {
-
   public events$: Observable<Event[]> = of([]);
   public course$: Observable<Course> = of();
   public semester_year$: Observable<string>;
@@ -22,29 +21,19 @@ export class ExportComponent implements OnInit {
     private eventsService: EventsService,
     private courseService: CoursesService
   ) {}
-  
 
   ngOnInit(): void {
-
-    this.semester_year$ = this.activatedRouter.queryParams
-    .pipe(
+    this.semester_year$ = this.activatedRouter.queryParams.pipe(
       filter((params) => !!params.semester && !!params.course_id),
-      map(params => params.semester)
-    )
-    
-
-    this.course$ = this.activatedRouter.queryParams
-    .pipe(
-      filter((params) => !!params.course_id),
-      switchMap((params) =>
-        this.courseService.getCourse(
-          params.course_id
-        )
-      )
+      map((params) => params.semester)
     );
 
-    this.events$ = this.activatedRouter.queryParams
-    .pipe(
+    this.course$ = this.activatedRouter.queryParams.pipe(
+      filter((params) => !!params.course_id),
+      switchMap((params) => this.courseService.getCourse(params.course_id))
+    );
+
+    this.events$ = this.activatedRouter.queryParams.pipe(
       filter((params) => !!params.semester && !!params.course_id),
       switchMap((params) =>
         this.eventsService.getAllEventsBySemesterAndCourse(
@@ -55,11 +44,16 @@ export class ExportComponent implements OnInit {
     );
   }
 
-  print(gallery, j, events, i){
-    // if (events.length-1 === i && gallery.length-1 === j) {
-    //   setTimeout(_ => {
-    //     window.print();
-    //   }, 500);
-    // }
+  public print(
+    gallery: string[],
+    j: number,
+    events: string[],
+    i: number
+  ): void {
+    if (events.length - 1 === i && gallery.length - 1 === j) {
+      setTimeout((_) => {
+        window.print();
+      }, 500);
+    }
   }
 }

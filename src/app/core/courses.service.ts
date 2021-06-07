@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CoursesService {
-
   constructor(private afs: AngularFirestore) {}
 
   public getCourse(id: string): Observable<Course> {
