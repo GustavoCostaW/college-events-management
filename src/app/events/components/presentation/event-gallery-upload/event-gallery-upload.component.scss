@@ -4,21 +4,20 @@
 }
 
 @media only screen and (min-width: 350px) {
-    #gallery {
-        height: 125px;
+  #gallery {
+    height: 125px;
   }
 }
 
-@media only screen 
-  and (max-width: 350px){
-    div ul#gallery {
-        height: 100px;
-    }
+@media only screen and (max-width: 350px) {
+  div ul#gallery {
+    height: 100px;
+  }
 }
 
 label {
   cursor: pointer;
-  border:1px dotted #ccc;
+  border: 1px dotted #ccc;
   padding: 6px;
   text-align: center;
   display: block;
@@ -30,22 +29,16 @@ label {
 }
 
 ul li {
-  position: relative;
-  display: block;
-  z-index: 9;
-  border: 1px solid #ccc;
   margin-bottom: 10px;
-  
-  img:hover ~ button, button:hover  {
-    opacity:1;
+
+  img {
+    border: 1px solid #ccc;
+    min-height: 50px;
   }
-  
-  button {
-    opacity: 0.4;
-    position: absolute;
-    z-index: 9;
-    left: 25%;
-    top: 25%;
+
+  span {
     cursor: pointer;
+    color: black;
+    text-decoration: underline;
   }
 }

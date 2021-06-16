@@ -13,7 +13,7 @@ export const loginFromSessionAction = createAction(
 
 export const loginSuccessAction = createAction(
   '[Auth] Login Action Success',
-  props<{ user: User }>() 
+  props<User>()
 );
 
 export const logoutAction = createAction(

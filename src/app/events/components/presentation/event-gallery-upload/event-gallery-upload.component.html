@@ -8,12 +8,12 @@
 <label for="files">Escolher imagens para upload</label>
 
 <div *ngIf="!loading">
-  <ul fxLayout="row wrap" id="gallery" *ngIf="(uploads$ | async).length > 0" fxLayoutGap="10px">
-    <li *ngFor="let item of (uploads$ | async)">
+  <ul fxLayout="row wrap" id="gallery" *ngIf="(uploads$ | async).length > 0" fxLayoutGap="10px" fxLayoutAlign="center">
+    <li *ngFor="let item of (uploads$ | async)" fxLayout="column" fxLayoutAlign="center center">
       <img src="{{ item }}" width="100px" />
-      <button mat-fab color="primary" type="button">
-        <mat-icon>delete</mat-icon>
-      </button>
+      <span href="#" (click)="remove(item)">
+        Remover
+      </span>
     </li>
   </ul>
 </div>

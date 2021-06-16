@@ -16,6 +16,7 @@ export interface EventsState {
 export const initialState: EventsState = {
   events: [],
   loaded: false,
+  loading: true
 };
 
 const eventsReducerFactory = createReducer(

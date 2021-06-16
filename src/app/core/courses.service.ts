@@ -1,9 +1,10 @@
-import { Course } from './../models/course.model';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+
+import { Course } from './../models/course.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,12 +18,24 @@ export class CoursesService {
       .valueChanges()
       .pipe(
         take(1),
-        map((course) => {
+        map((course) => {{}
           return {
             id,
             ...course,
           };
         })
       );
+  }
+
+  public getCourses(): Observable<Course[]> {
+    return this.afs
+      .collection<Course>(
+        'courses',
+        (ref) => ref.orderBy('name', 'desc')
+      )
+      .valueChanges({
+        idField: 'id',
+      })
+      .pipe(take(1));
   }
 }

@@ -16,7 +16,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
   ],
   declarations: [
-    LoginComponent
+    LoginComponent,
   ],
 })
 export class AuthModule {}

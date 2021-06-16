@@ -1,0 +1,13 @@
+<div (click)="logout()">
+    Logout
+</div>
+
+{{loading$ | async}}
+
+<div>
+    <ul>
+        <li *ngFor="let course of (courses$ | async)">
+            {{course.name}}
+        </li>
+    </ul>
+</div>

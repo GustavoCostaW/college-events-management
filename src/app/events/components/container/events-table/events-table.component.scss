@@ -4,8 +4,12 @@
   tr {
     cursor: pointer;
   }
-}
 
+  th, td{
+    text-align: center;
+    vertical-align: middle;
+  }
+}
 
 .add-button {
   position: fixed;

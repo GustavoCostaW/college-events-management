@@ -5,6 +5,7 @@ import {
   redirectUnauthorizedTo,
 } from '@angular/fire/auth-guard';
 import { AuthGuard } from './auth/auth.guard.service';
+import { AuthAdminOnlyGuard } from './auth/auth-admin-only.guard.service';
 
 const redirectToLogin = () => redirectUnauthorizedTo(['login']);
 
@@ -15,6 +16,13 @@ const routes: Routes = [
     data: { authGuardPipe: () => redirectToLogin() },
     loadChildren: () =>
       import('./events/events.module').then((m) => m.EventsModule),
+  },
+  {
+    path: 'admin',
+    canActivate: [AngularFireAuthGuard, AuthGuard, AuthAdminOnlyGuard],
+    data: { authGuardPipe: () => redirectToLogin() },
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
   },
   {
     path: 'export',

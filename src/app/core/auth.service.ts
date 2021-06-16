@@ -42,6 +42,9 @@ export class AuthService {
       })
     );
   }
+
+  public isCoordenator = (user) => user.role === 'coordenator';
+  public isAdmin = (user) => user.role === 'admin';
 }
 
 

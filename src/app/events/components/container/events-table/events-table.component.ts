@@ -41,6 +41,7 @@ export class EventsTableComponent implements OnInit {
     'eventName',
     'eventLocation',
     'eventDate',
+    'gallery'
   ];
 
   constructor(

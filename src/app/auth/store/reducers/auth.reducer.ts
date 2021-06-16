@@ -5,6 +5,7 @@ export interface AuthState {
   email: string;
   id: string;
   auth: boolean;
+  role?: string;
   loading?: boolean;
   loaded?: boolean;
   error?: string;
@@ -13,6 +14,7 @@ export interface AuthState {
 const initialState: AuthState = {
   id: undefined,
   email: undefined,
+  role: undefined,
   auth: false,
   loaded: false,
   loading: false,
@@ -27,7 +29,7 @@ const authReducerFactory = createReducer(
       loading: true,
     };
   }),
-  on(AuthActions.loginSuccessAction, (state, { user }) => {
+  on(AuthActions.loginSuccessAction, (state, user) => {
     return {
       ...user,
       auth: true,
