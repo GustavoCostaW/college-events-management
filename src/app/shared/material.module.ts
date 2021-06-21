@@ -9,6 +9,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 const reExport = [
   MatTableModule,
@@ -22,6 +23,7 @@ const reExport = [
   MatButtonModule,
   MatDialogModule,
   MatRadioModule,
+  MatExpansionModule,
 ];
 
 @NgModule({

@@ -1,0 +1,16 @@
+<div>
+  <form
+    action="#"
+    fxLayout="column"
+    [formGroup]="form"
+    (ngSubmit)="onSubmit(form)"
+  >
+    <mat-form-field>
+      <mat-label>Nome do curso</mat-label>
+      <input matInput placeholder="Nome do curso" formControlName="name" />
+    </mat-form-field>
+    <div fxLayoutAlign="end center" fxLayoutGap="5px">
+      <button mat-raised-button color="primary">Salvar</button>
+    </div>
+  </form>
+</div>

@@ -5,6 +5,7 @@ import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { Course } from './../models/course.model';
+import { from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -37,5 +38,15 @@ export class CoursesService {
         idField: 'id',
       })
       .pipe(take(1));
+  }
+
+  public insertCourse(
+    course: Course,
+  ): Observable<any> {
+    return from(
+      this.afs.collection<Course>('courses').add({
+        ...course,
+      })
+    );
   }
 }

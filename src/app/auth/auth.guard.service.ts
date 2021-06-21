@@ -1,15 +1,12 @@
+import { AuthService } from './../core/auth.service';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { map, take, withLatestFrom } from 'rxjs/operators';
+import { map, tap, withLatestFrom } from 'rxjs/operators';
 
 import { selectCurrentUser } from './store/selectors/auth.selectors';
 import { loginFromSessionAction } from './store/actions/auth.actions';
@@ -20,8 +17,8 @@ import { loginFromSessionAction } from './store/actions/auth.actions';
 export class AuthGuard implements CanActivate {
   constructor(
     public auth: AngularFireAuth,
-    private router: Router,
-    private store: Store
+    private store: Store,
+    private authService: AuthService
   ) {}
 
   public canActivate(
@@ -29,20 +26,20 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean> | boolean {
     return this.auth.user.pipe(
       withLatestFrom(this.store.select(selectCurrentUser)),
-      take(1),
-      map(([user, currentUser]) => { 
+      tap(([user, currentUser]) => {
         if (user && currentUser.auth === false) {
           this.store.dispatch(
             loginFromSessionAction({ email: user.email, id: user.uid })
           );
-
-          if (next.routeConfig.path === 'login') {
-            this.router.navigate(['events']);
-          }
         }
-
-        return true;
+      }),
+      map(([user, currentUser]) => {
+        if (!!user && currentUser.auth === false) {
+          return false;
+        } else {
+          return true;
+        }
       })
-    )
+    );
   }
 }

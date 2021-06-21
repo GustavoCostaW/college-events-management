@@ -5,12 +5,13 @@ import { Observable } from 'rxjs';
 import { from } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(public auth: AngularFireAuth, private afs: AngularFirestore) {}
+  constructor(public auth: AngularFireAuth, private afs: AngularFirestore, private router: Router) {}
 
   public login(
     email: string,
@@ -41,6 +42,14 @@ export class AuthService {
         };
       })
     );
+  }
+
+  public redirectTheUser(user): void {
+    if (this.isAdmin(user)) {
+      this.router.navigate(['admin']);
+    } else  {
+      this.router.navigate(['events'])
+    }
   }
 
   public isCoordenator = (user) => user.role === 'coordenator';

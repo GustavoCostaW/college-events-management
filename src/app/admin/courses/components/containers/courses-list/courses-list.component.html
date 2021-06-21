@@ -1,13 +1,27 @@
-<div (click)="logout()">
-    Logout
-</div>
-
-{{loading$ | async}}
-
-<div>
-    <ul>
-        <li *ngFor="let course of (courses$ | async)">
+<div id="app-container" fxLayout="column" fxLayoutGap="30px">
+  <app-loading *ngIf="loading$ | async"></app-loading>
+  <header>
+    <div (click)="logout()">Logout</div>
+  </header>
+  <div>
+    <mat-accordion>
+      <mat-expansion-panel hideToggle *ngFor="let course of (courses$ | async)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
             {{course.name}}
-        </li>
-    </ul>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>This is the primary content of the panel.</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <button
+    mat-fab
+    color="primary"
+    aria-label="Adicionar curso"
+    class="add-button"
+    (click)="newCourse()"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
 </div>

@@ -4,6 +4,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { SharedModule } from '../../shared/shared.module';
 import { CoursesEffects } from './store/effects/courses.effects';
 import { CoursesListComponent } from './components/containers/courses-list/courses-list.component';
+import { CourseDialogComponent } from './components/presentation/course-dialog/course-dialog.component';
 
 const routes: Routes = [
   {
@@ -13,13 +14,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    CoursesListComponent
-  ],
+  declarations: [CoursesListComponent, CourseDialogComponent],
   imports: [
     SharedModule,
     RouterModule.forChild(routes),
-    EffectsModule.forFeature([CoursesEffects])
-  ]
+    EffectsModule.forFeature([CoursesEffects]),
+  ],
 })
-export class CoursesModule { }
+export class CoursesModule {}
