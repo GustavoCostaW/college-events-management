@@ -10,7 +10,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { exhaustMap, map, switchMap, tap } from 'rxjs/operators';
 import { loginAction, loginSuccessAction } from '../actions/auth.actions';
 import { of } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { loadCoursesAction } from '../../../admin/courses/store/actions/courses.actions';
 
 @Injectable()
@@ -22,7 +22,6 @@ export class AuthEffects {
         this.authService.login(email, password)
       ),
       switchMap((user) => this.authService.findUserById(user.id)),
-      tap((user) => this.authService.redirectTheUser(user)),
       map((user) => loginSuccessAction(user))
     );
   });
@@ -39,8 +38,7 @@ export class AuthEffects {
     return this.actions$.pipe(
       ofType(loginSuccessAction),
       switchMap((user) => {
-
-        if (this.router.url === '/') {
+        if (this.router.url === '/' || this.router.url === '/login') {
           this.authService.redirectTheUser(user);
         }
 

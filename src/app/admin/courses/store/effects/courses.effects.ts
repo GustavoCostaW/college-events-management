@@ -3,12 +3,15 @@ import {
   loadCoursesSuccessAction,
   insertCourseAction,
   insertCourseSuccessAction,
+  loadCourseUsers,
+  loadCourseUsersSuccess,
 } from './../actions/courses.actions';
 import { CoursesService } from './../../../../core/courses.service';
 
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable()
 export class CoursesEffects {
@@ -18,7 +21,18 @@ export class CoursesEffects {
       mergeMap(() => {
         return this.coursesService
           .getCourses()
-          .pipe(map((courses) => loadCoursesSuccessAction({ courses })));
+          .pipe(switchMap((courses) => of(loadCoursesSuccessAction({ courses }), loadCourseUsers())));
+      })
+    );
+  });
+
+  loadCourseUsers$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadCourseUsers),
+      mergeMap(() => {
+        return this.coursesService
+          .getCoursesUsers()
+          .pipe(map((users) => loadCourseUsersSuccess({ users })));
       })
     );
   });

@@ -1,6 +1,7 @@
 <div id="app-container" fxLayout="column" fxLayoutGap="30px">
   <app-loading *ngIf="loading$ | async"></app-loading>
-  <header>
+  <header fxLayout="row" fxLayoutAlign="space-between center" >
+    <h1>Cursos:</h1>
     <div (click)="logout()">Logout</div>
   </header>
   <div>
@@ -11,7 +12,14 @@
             {{course.name}}
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <p>This is the primary content of the panel.</p>
+        <div>
+          <ul>
+            <li *ngIf="course.users.length === 0">Não há nenhum usuário cadastrado para esse curso.</li>
+            <li *ngFor="let user of course.users">
+             <span> Usuário: </span>{{user.name}} <span>E-mail:</span> {{user.email}}
+            </li>
+          </ul>
+        </div>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
